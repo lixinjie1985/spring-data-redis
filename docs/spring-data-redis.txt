@@ -1,0 +1,19 @@
+5.3 RedisConnection and RedisConnectionFactory，用于获取到redis的链接，是一个统一的抽象
+可以进行异常转换，根据底层配置，可以返回一个新的链接或已存在链接（如使用连接池技术）
+最简单的方式是在容器中配置RedisConnectionFactory，并注入到使用它的类中，其中依赖Jedis的
+一个实现类是JedisConnectionFactory，可以指定IP，用户名，密码
+
+5.5 通过RedisTemplate操作对象，该类是核心，提供了与redis交互的高层抽象，RedisConnection提
+供了低层的方法来操作二进制字节，RedisTemplate会关注序列化和链接管理，可以让用户不操这个心，
+且提供更丰富的操作视图，是线程安全的，可以被多线程重复使用。大部分操作使用基于java的序列化器
+序列化机制可以很容易地被替换，可以把序列化器设置为null来直接操作字节数组
+
+5.6 聚焦字符串的方便类，StringRedisConnection，DefaultStringRedisConnection，
+StringRedisTemplate，是方便的对于字符串操作的一站式解决方案，使用StringRedisSerializer序列
+化器，这种编码人类更容易看懂，可以使用RedisCallback的doInRedis方法来直接操作RedisConnection
+
+5.7 序列化器
+
+5.8 哈希映射
+
+5.9 Redis消息/发布订阅

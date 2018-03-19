@@ -1,0 +1,4 @@
+spring-data-redis:1.8.10
+jdk:6+
+spring-framework:4.3.14.RELEASE+
+redis:2.6+
