@@ -17,3 +17,22 @@ StringRedisTemplate，是方便的对于字符串操作的一站式解决方案�
 5.8 哈希映射
 
 5.9 Redis消息/发布订阅
+
+5.10 Redis事务，默认禁用，需要显式开启，RedisConnection会绑定到当前线程来触发MULTI，如果没有
+错误，EXEC将被调用，否则DISCARD，一旦在MULTI当中，RedisConnection将排队写操作，所有的读操作
+将到另一个新的RedisConnection上
+
+5.11 管道，一次性向服务器端发送多个命令，一次性的读取多个结果，由于减少了网络传输，所以提供了
+性能
+
+5.12 Redis脚本，Lua
+
+5.13 支撑类，基于redis存储实现的多种可复用组件，如JDK的原子操作包，集合包的实现
+
+6.1 启用Redis集群
+
+6.2 使用Redis集群链接
+
+6.3 使用RedisTemplate和集群操作
+
+

@@ -1,4 +1,4 @@
 spring-data-redis:1.8.10
 jdk:6+
 spring-framework:4.3.14.RELEASE+
-redis:2.6+
+redis:2.6+,集群的话需要3.0+
