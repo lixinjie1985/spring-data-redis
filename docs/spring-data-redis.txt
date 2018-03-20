@@ -29,9 +29,19 @@ StringRedisTemplate，是方便的对于字符串操作的一站式解决方案�
 
 5.13 支撑类，基于redis存储实现的多种可复用组件，如JDK的原子操作包，集合包的实现
 
-6.1 启用Redis集群
+6.1 启用Redis集群，RedisClusterConnection扩展了RedisConnection，用来和集群通信和转换异常，使用
+RedisClusterConfiguration来配置RedisConnectionFactory
+spring.redis.cluster.nodes，spring.redis.cluster.max-redirects
 
-6.2 使用Redis集群链接
+6.2 使用Redis集群链接，如果一个命令涉及到多个key，必须保证所有的key都位于同一个哈希槽上，否则产生
+异常，一个集群节点只能够服务于它上面有的key集合，如果key不在它上面，它无法服务，例如要获取所有的key
+的话，必须去所有的主节点都获取key，然后在累积在一起。底层的驱动会处理哈希槽重定向问题，高层的功能涉
+及到跨多节点时，已由RedisClusterConnection来处理，对用户来说是透明的。跨节点的操作如MGET，如果所
+有的key都映射到同一个哈希槽，则该命令直接调用底层驱动类库来完成，然而一旦不是上面这种情况，
+RedisClusterConnection将并行地执行多个GET命令分别获取值，然后再把这些值累积到一起返回，很明显这样
+性能不好，应该慎用，也有办法让多个key位于同一个哈希槽上，那就是使用大括号，且大括号里的值一样就行，
+{my-prefix}.foo和{my-prefix}.bar，此时只用大括号里的值来计算哈希
+注意，并不是所有的多key命令都可以拆成多个单key命令来执行然后再累积结果
 
 6.3 使用RedisTemplate和集群操作
 
