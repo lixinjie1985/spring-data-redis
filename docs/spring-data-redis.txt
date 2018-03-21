@@ -43,6 +43,15 @@ RedisClusterConnection将并行地执行多个GET命令分别获取值，然后�
 {my-prefix}.foo和{my-prefix}.bar，此时只用大括号里的值来计算哈希
 注意，并不是所有的多key命令都可以拆成多个单key命令来执行然后再累积结果
 
-6.3 使用RedisTemplate和集群操作
+6.3 使用RedisTemplate和集群操作，RedisTemplate通过ClusterOperations接口提供访问集群的特定操作，
 
+7 Redis仓库，可以把Java对象存储到Redis里的哈希，应用自定义映射策略和二级索引，要求Redis:2.8.0+
 
+7.1 使用，@RedisHash和@org.springframework.data.annotation.Id用来创建设计存储到哈希时用的key，
+有专门的仓库接口CrudRepository来进行存取，我们可以定义一个PersonRepository来继承仓库接口
+CrudRepository<Person, String>，且不用提供实现类，就像mybatis里的Mapper接口一样，只要进行一些
+配置，如@EnableRedisRepositories，spring-data-redis会在运行时来实现我们的接口，具体参考官方
+文档该章节。其中@RedisHash可以用来指定键空间
+
+7.2 对象到哈希的映射，使用RedisConverter把对象的属性值和redis的字节数组互相转换，可以在
+CustomConversions里注册自定义Converter，
