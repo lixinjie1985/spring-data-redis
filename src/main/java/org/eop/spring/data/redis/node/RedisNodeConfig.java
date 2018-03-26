@@ -23,6 +23,10 @@ public class RedisNodeConfig {
 	public RedisTemplate<?, ?> redisTemplate() {
 		RedisTemplate<?, ?> redisTemplate = new RedisTemplate<>();
 		redisTemplate.setConnectionFactory(redisConnectionFactory);
+		//key必须是字符串，直接按UTF-8编码序列化为字节数组
+		//value不做限制，使用Jdk自带的对象序列化为字节数组
+		redisTemplate.setKeySerializer(redisTemplate.getStringSerializer());
+		redisTemplate.setHashKeySerializer(redisTemplate.getStringSerializer());
 		return redisTemplate;
 	}
 }
